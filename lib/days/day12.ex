@@ -6,7 +6,6 @@ defmodule Day12 do
     map = read_map(12)
     regions = find_all_regions({0,0}, map)
     boundary_sizes = regions |> Enum.map(fn region -> (find_region_boundaries(region) |> Enum.count) * Enum.count(region) end)
-    #IO.inspect(boundary_sizes)
     "Day 12, Part 1: #{boundary_sizes |> Enum.sum}"
   end
 
