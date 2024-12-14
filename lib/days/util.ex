@@ -9,11 +9,11 @@ defmodule Util do
     file |> String.split("\n")
   end
 
-  def read_map(day) do
+  def read_map(day, mapfn \\ fn v -> v end) do
     {:ok, file} = File.read("lib/days/day#{day}.txt")
     file |> String.split("\n")
       |> Enum.with_index
-      |> Enum.flat_map(fn {l, y} -> l |> String.graphemes |> Enum.with_index |> Enum.map(fn {v, x} -> {{x,y}, v} end) end)
+      |> Enum.flat_map(fn {l, y} -> l |> String.graphemes |> Enum.with_index |> Enum.map(fn {v, x} -> {{x,y}, mapfn.(v)} end) end)
       |> Map.new
   end
 
