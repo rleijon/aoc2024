@@ -11,10 +11,7 @@ defmodule Util do
 
   def read_map(day, mapfn \\ fn v -> v end) do
     {:ok, file} = File.read("lib/days/day#{day}.txt")
-    file |> String.split("\n")
-      |> Enum.with_index
-      |> Enum.flat_map(fn {l, y} -> l |> String.graphemes |> Enum.with_index |> Enum.map(fn {v, x} -> {{x,y}, mapfn.(v)} end) end)
-      |> Map.new
+    file |> String.split("\n") |> parse_map(mapfn)
   end
 
   def last(list) do
@@ -24,5 +21,12 @@ defmodule Util do
   def words(s) do
     pattern = ~r/[ \t]+/
     String.split(s, pattern)
+  end
+
+  def parse_map(lines, mapfn \\ fn v -> v end) do
+    lines
+      |> Enum.with_index
+      |> Enum.flat_map(fn {l, y} -> l |> String.graphemes |> Enum.with_index |> Enum.map(fn {v, x} -> {{x,y}, mapfn.(v)} end) end)
+      |> Map.new
   end
 end
